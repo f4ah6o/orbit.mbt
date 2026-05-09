@@ -21,10 +21,7 @@ fn main {
 
 ///|
 pub fn boot() -> Unit {
-  match current_session.val.start() {
-    Ok(s) => current_session.val = s
-    Err(_) => ()
-  }
+  // Start from Idle; let the user click "Start" to transition to Running.
   re_render()
 }
 
