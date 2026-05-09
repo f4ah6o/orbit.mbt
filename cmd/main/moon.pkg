@@ -1,0 +1,7 @@
+// import {
+//   "f4ah6o/orbit" @lib,
+// }
+
+options(
+  "is-main": true,
+)
