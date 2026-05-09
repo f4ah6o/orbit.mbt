@@ -1,0 +1,1 @@
+{"state":"idle","messages":[],"available_actions":[{"rel":"start","method":"POST","href":"/session/s1/actions/start"}],"reasons":[],"links":[{"rel":"self","href":"/session/s1"}]}
