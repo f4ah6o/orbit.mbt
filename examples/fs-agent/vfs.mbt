@@ -11,7 +11,6 @@ pub fn VFS::new() -> VFS {
 
 ///|
 pub fn VFS::read(self : VFS, path : String) -> Result[String, String] {
-  let _ = self
   for pair in self.files {
     let p = pair.0
     let content = pair.1
@@ -24,7 +23,6 @@ pub fn VFS::read(self : VFS, path : String) -> Result[String, String] {
 
 ///|
 pub fn VFS::write(self : VFS, path : String, content : String) -> VFS {
-  let _ = self
   let new_files : Array[(String, String)] = []
   let mut found = false
   for pair in self.files {
@@ -45,7 +43,6 @@ pub fn VFS::write(self : VFS, path : String, content : String) -> VFS {
 
 ///|
 pub fn VFS::list(self : VFS, dir : String) -> Array[String] {
-  let _ = self
   let entries : Array[String] = []
   let prefix = dir + "/"
   for pair in self.files {

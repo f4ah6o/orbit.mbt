@@ -87,6 +87,15 @@ test "ListDirTool lists files in VFS directory" {
 }
 
 ///|
+test "ListDirTool lists empty directory as empty output" {
+  let vfs : Ref[VFS] = { val: VFS::new().write("src/main.mbt", "fn main {}") }
+  let tool = ListDirTool::{ vfs, }
+  let result = tool.execute("missing")
+  assert_eq(result.success, true)
+  assert_eq(result.output, "")
+}
+
+///|
 test "Allow gate completes tool call, session returns to Running" {
   let vfs : Ref[VFS] = { val: VFS::new().write("test.txt", "hello") }
   let reg = @orbit.ToolRegistry::create()
