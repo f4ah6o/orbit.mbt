@@ -1,0 +1,1 @@
+{"id":"s1","events":[{"type":"SessionStarted","session_id":"s1"},{"type":"UserMessage","content":"hello"},{"type":"AssistantMessage","content":"hi"}]}

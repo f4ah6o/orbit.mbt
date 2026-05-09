@@ -1,0 +1,1 @@
+{"id":"s1","events":[{"type":"SessionStarted","session_id":"s1"},{"type":"ToolCall","tool_name":"echo","input":"{}","call_id":"c1"}]}
