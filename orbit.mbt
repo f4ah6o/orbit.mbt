@@ -36,7 +36,7 @@ pub enum AgentState {
 ///|
 /// Agent event — single source of truth for all runtime changes.
 /// Every state transition is recorded as an event; replay is deterministic.
-pub enum AgentEvent {
+pub(all) enum AgentEvent {
   UserMessage(String)
   AssistantMessage(String)
   ToolCall(ToolRequest)
