@@ -1,0 +1,1 @@
+{"session_id":"orch1","state":"orchestrating","agents":[{"role":"planner","session_id":"orch1/planner","state":"running"}],"tasks":[{"id":"t1","description":"Plan","role":"planner","dependencies":[],"status":"pending"},{"id":"t2","description":"Execute","role":"executor","dependencies":["t1"],"status":"pending"}],"transitions":[]}
