@@ -1,0 +1,1 @@
+{"state":"waiting_tool","messages":[],"available_actions":[{"rel":"respond_tool","method":"POST","href":"/session/s1/actions/tool"},{"rel":"end","method":"POST","href":"/session/s1/actions/end"}],"reasons":[],"links":[{"rel":"self","href":"/session/s1"}]}
