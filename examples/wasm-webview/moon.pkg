@@ -1,0 +1,7 @@
+import {
+  "f4ah6o/orbit",
+}
+
+options(
+  "is-main": true,
+)

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>orbit.mbt — wasm-webview demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <button id="btn-start">Start</button>
+    <button id="btn-end">End</button>
+    <button id="btn-user-msg">User Message</button>
+    <button id="btn-request-tool">Request Tool</button>
+    <button id="btn-respond-tool">Respond Tool</button>
+    <input id="payload-input" type="text" placeholder="payload (tool name / message / response)" value="hello">
+  </header>
+  <main>
+    <section id="app" class="pane">
+      <p class="loading">Loading wasm…</p>
+    </section>
+    <section id="log" class="pane">
+      <h3>Event Log</h3>
+      <ol id="log-list"></ol>
+    </section>
+  </main>
+  <script type="module" src="bootstrap.js"></script>
+</body>
+</html>
