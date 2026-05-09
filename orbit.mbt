@@ -23,7 +23,8 @@ struct ToolResponse {
   success : Bool
 } derive(Debug, Eq)
 
-///| Agent state machine — illegal states unrepresentable.
+///|
+/// Agent state machine — illegal states unrepresentable.
 /// Each variant carries exactly the data needed for that state.
 pub enum AgentState {
   Idle
@@ -32,7 +33,8 @@ pub enum AgentState {
   Failed(String)
 } derive(Debug, Eq)
 
-///| Agent event — single source of truth for all runtime changes.
+///|
+/// Agent event — single source of truth for all runtime changes.
 /// Every state transition is recorded as an event; replay is deterministic.
 pub enum AgentEvent {
   UserMessage(String)

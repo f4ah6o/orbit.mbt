@@ -1,4 +1,5 @@
-///| Session — core runtime unit.
+///|
+/// Session — core runtime unit.
 /// Holds current state and an append-only event log.
 /// All transitions go through `apply`, guaranteeing deterministic replay.
 pub struct Session {
@@ -12,7 +13,8 @@ pub fn Session::create(id : SessionId) -> Session {
   { id, state: Idle, event_log: [] }
 }
 
-///| Idle -> Running. Produces `SessionStarted`.
+///|
+/// Idle -> Running. Produces `SessionStarted`.
 pub fn Session::start(self : Session) -> Result[Session, String] {
   match self.state {
     Idle => Ok(self.apply(SessionStarted(self.id)))
@@ -22,7 +24,8 @@ pub fn Session::start(self : Session) -> Result[Session, String] {
   }
 }
 
-///| Running | WaitingTool -> Idle. Produces `SessionEnded`.
+///|
+/// Running | WaitingTool -> Idle. Produces `SessionEnded`.
 pub fn Session::end(self : Session) -> Result[Session, String] {
   match self.state {
     Running(_) | WaitingTool(_, _) => Ok(self.apply(SessionEnded(self.id)))
@@ -31,10 +34,11 @@ pub fn Session::end(self : Session) -> Result[Session, String] {
   }
 }
 
-///| Append a user message. Only valid when Running.
+///|
+/// Append a user message. Only valid when Running.
 pub fn Session::send_user_message(
   self : Session,
-  content : String
+  content : String,
 ) -> Result[Session, String] {
   match self.state {
     Running(_) => Ok(self.apply(UserMessage(content)))
@@ -42,10 +46,11 @@ pub fn Session::send_user_message(
   }
 }
 
-///| Append an assistant message. Only valid when Running.
+///|
+/// Append an assistant message. Only valid when Running.
 pub fn Session::receive_assistant_message(
   self : Session,
-  content : String
+  content : String,
 ) -> Result[Session, String] {
   match self.state {
     Running(_) => Ok(self.apply(AssistantMessage(content)))
@@ -53,10 +58,11 @@ pub fn Session::receive_assistant_message(
   }
 }
 
-///| Running -> WaitingTool. Produces `ToolCall`.
+///|
+/// Running -> WaitingTool. Produces `ToolCall`.
 pub fn Session::request_tool(
   self : Session,
-  req : ToolRequest
+  req : ToolRequest,
 ) -> Result[Session, String] {
   match self.state {
     Running(_) => Ok(self.apply(ToolCall(req)))
@@ -65,10 +71,11 @@ pub fn Session::request_tool(
   }
 }
 
-///| WaitingTool -> Running. Produces `ToolResult`.
+///|
+/// WaitingTool -> Running. Produces `ToolResult`.
 pub fn Session::respond_tool(
   self : Session,
-  res : ToolResponse
+  res : ToolResponse,
 ) -> Result[Session, String] {
   match self.state {
     WaitingTool(_, _) => Ok(self.apply(ToolResult(res)))
@@ -76,12 +83,14 @@ pub fn Session::respond_tool(
   }
 }
 
-///| Any state -> Failed. Produces `Reason`.
+///|
+/// Any state -> Failed. Produces `Reason`.
 pub fn Session::fail(self : Session, reason : String) -> Session {
   self.apply(Reason(reason))
 }
 
-///| Core transition: apply one event, return new immutable session.
+///|
+/// Core transition: apply one event, return new immutable session.
 pub fn Session::apply(self : Session, event : AgentEvent) -> Session {
   let new_state = apply_event(self.state, event)
   let new_log : Array[AgentEvent] = []
@@ -92,7 +101,8 @@ pub fn Session::apply(self : Session, event : AgentEvent) -> Session {
   { id: self.id, state: new_state, event_log: new_log }
 }
 
-///| Pure state-transition function. No side effects; used by apply and replay.
+///|
+/// Pure state-transition function. No side effects; used by apply and replay.
 fn apply_event(state : AgentState, event : AgentEvent) -> AgentState {
   match state {
     Idle =>
