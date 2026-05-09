@@ -1,7 +1,7 @@
 ///|
 /// Permission — explicit, inspectable, serializable boundaries.
 /// Session-scoped: each session declares what operations tools may perform.
-pub enum Permission {
+pub(all) enum Permission {
   FileRead(String)
   FileWrite(String)
   ShellExec(String)
@@ -69,7 +69,7 @@ pub fn permissions_satisfied(
 
 ///|
 /// Tool metadata — describes a tool's identity and required permissions.
-pub struct ToolMetadata {
+pub(all) struct ToolMetadata {
   name : String
   description : String
   permissions : Array[Permission]
@@ -78,7 +78,7 @@ pub struct ToolMetadata {
 
 ///|
 /// Tool execution result — output of a tool invocation.
-pub struct ExecResult {
+pub(all) struct ExecResult {
   output : String
   success : Bool
   error : String
@@ -98,7 +98,7 @@ pub fn ExecResult::fail(error : String) -> ExecResult {
 
 ///|
 /// Tool trait — every tool implements metadata() and execute().
-pub trait Tool {
+pub(open) trait Tool {
   metadata(Self) -> ToolMetadata
   execute(Self, String) -> ExecResult
 }
