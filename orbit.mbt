@@ -10,14 +10,14 @@ struct RunContext {
 } derive(Debug, Eq)
 
 ///|
-struct ToolRequest {
+pub(all) struct ToolRequest {
   tool_name : String
   input : String
   call_id : String
 } derive(Debug, Eq)
 
 ///|
-struct ToolResponse {
+pub(all) struct ToolResponse {
   call_id : String
   output : String
   success : Bool
