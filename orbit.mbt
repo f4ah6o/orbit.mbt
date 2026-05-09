@@ -1,3 +1,47 @@
-// Main package file for your library code.
-// Put public APIs and shared helpers here.
-// Keep blocks small and focused for easy refactors.
+///|
+type SessionId = String
+
+///|
+type StateId = String
+
+///|
+struct RunContext {
+  session_id : SessionId
+} derive(Debug, Eq)
+
+///|
+struct ToolRequest {
+  tool_name : String
+  input : String
+  call_id : String
+} derive(Debug, Eq)
+
+///|
+struct ToolResponse {
+  call_id : String
+  output : String
+  success : Bool
+} derive(Debug, Eq)
+
+///| Agent state machine — illegal states unrepresentable.
+/// Each variant carries exactly the data needed for that state.
+pub enum AgentState {
+  Idle
+  Running(RunContext)
+  WaitingTool(RunContext, ToolRequest)
+  Failed(String)
+} derive(Debug, Eq)
+
+///| Agent event — single source of truth for all runtime changes.
+/// Every state transition is recorded as an event; replay is deterministic.
+pub enum AgentEvent {
+  UserMessage(String)
+  AssistantMessage(String)
+  ToolCall(ToolRequest)
+  ToolResult(ToolResponse)
+  Transition(StateId, StateId)
+  Reason(String)
+  StreamChunk(String)
+  SessionStarted(SessionId)
+  SessionEnded(SessionId)
+} derive(Debug, Eq)
