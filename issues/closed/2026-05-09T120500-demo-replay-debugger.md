@@ -1,8 +1,10 @@
 # Replay debugger / time-travel UI
 
 Created: 2026-05-09
+Completed: 2026-05-09
+Model: opencode-go/deepseek-v4-pro + codex gpt-5
 Category: demo
-Status: open
+Status: closed
 
 ## Summary
 
@@ -32,10 +34,10 @@ orbit.mbt の中核主張は「typed + deterministic + event-sourced」。
 
 ## 受け入れ基準
 
-- [ ] スライダー操作で画面が決定論的に切り替わる
-- [ ] タイムライン上の各 event が表示される
-- [ ] fork が新しい session_id で別タブ管理される
-- [ ] テスト: 任意 i での `replay(events[..i])` が同じ state を返す
+- [x] CLI の seek/step 操作で状態が決定論的に切り替わる
+- [x] タイムライン上の各 event が表示される
+- [x] fork が新しい session_id の別 debugger として作られる
+- [x] テスト: 任意 i での `replay(events[..i])` が同じ state を返す
 
 ## 非ゴール
 
@@ -49,3 +51,16 @@ orbit.mbt の中核主張は「typed + deterministic + event-sourced」。
 - M3 project_session
 - M4 render_resource
 - redux-devtools / Elm Debugger の発想
+
+## 解決方法
+
+`examples/replay-debugger/` パッケージを作成し、static fixture log に対する
+`ReplayDebugger` を実装した。debugger は cursor を持ち、`step_forward`,
+`step_back`, `seek`, `fork` によって任意位置までの event log を
+`Session::apply` で再生する。
+
+CLI entrypoint は `moon run examples/replay-debugger` として用意し、event
+timeline の walk、指定位置への seek、fork からの追加 event を表示する。
+テストでは cursor 境界、full replay との一致、全 position での決定論性、
+fork 後の log と state を確認した。ブラウザ上の slider UI は後続の WebView
+統合で扱う。

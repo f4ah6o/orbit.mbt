@@ -3,7 +3,7 @@
 ///|
 /// AgentRole — distinct roles in a multi-agent orchestration.
 /// Compatible with planner/dispatcher/runner/reviewer/decider flows.
-pub enum AgentRole {
+pub(all) enum AgentRole {
   Planner
   Executor
   Reviewer
@@ -35,7 +35,7 @@ fn agent_role_from_string(s : String) -> AgentRole? {
 
 ///|
 /// TaskNode — a single task in the orchestration graph.
-pub struct TaskNode {
+pub(all) struct TaskNode {
   id : String
   description : String
   role : AgentRole
@@ -45,7 +45,7 @@ pub struct TaskNode {
 ///|
 /// TaskGraph — DAG managing task dependencies.
 /// Cycles are detected and rejected as errors.
-pub struct TaskGraph {
+pub(all) struct TaskGraph {
   nodes : Array[TaskNode]
 } derive(Debug)
 
@@ -214,7 +214,7 @@ pub fn TaskGraph::all_nodes(self : TaskGraph) -> Array[TaskNode] {
 ///|
 /// OrchestratorSession — multi-agent coordination container.
 /// Manages a TaskGraph and binds AgentRole to individual Sessions.
-pub struct OrchestratorSession {
+pub(all) struct OrchestratorSession {
   id : SessionId
   task_graph : TaskGraph
   agent_sessions : Array[(AgentRole, Session)]
@@ -323,7 +323,7 @@ pub fn OrchestratorSession::get_session(
 
 ///|
 /// AgentEntry — role-to-session binding in the snapshot.
-pub struct AgentEntry {
+pub(all) struct AgentEntry {
   role : String
   session_id : String
   state : String
@@ -331,7 +331,7 @@ pub struct AgentEntry {
 
 ///|
 /// TaskSnapshot — task state in the snapshot.
-pub struct TaskSnapshot {
+pub(all) struct TaskSnapshot {
   id : String
   description : String
   role : String
@@ -341,7 +341,7 @@ pub struct TaskSnapshot {
 
 ///|
 /// TransitionEntry — a transition record between tasks.
-pub struct TransitionEntry {
+pub(all) struct TransitionEntry {
   from : String
   to : String
   reason : String
@@ -350,7 +350,7 @@ pub struct TransitionEntry {
 ///|
 /// SessionSnapshot — full serializable orchestrator state.
 /// Equivalent to the session.yaml concept from HANDOFF.
-pub struct SessionSnapshot {
+pub(all) struct SessionSnapshot {
   session_id : String
   state : String
   agents : Array[AgentEntry]

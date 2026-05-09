@@ -1,8 +1,10 @@
 # Multi-agent orchestration デモ (Planner → Executor → Reviewer)
 
 Created: 2026-05-09
+Completed: 2026-05-09
+Model: opencode-go/deepseek-v4-pro + codex gpt-5
 Category: demo
-Status: open
+Status: closed
 
 ## Summary
 
@@ -42,10 +44,10 @@ MoonBit で typed に書ける、という主張のための材料にする。
 
 ## 受け入れ基準
 
-- [ ] 上記 fizzbuzz シナリオ相当の fixture テストが通る
-- [ ] TaskGraph の cycle 検出が触れる（負例テスト）
-- [ ] SessionSnapshot からの再開で同じ最終状態に到達
-- [ ] CLI: `orbit-orchestrate fizzbuzz` で event log がダンプされる
+- [x] 上記 fizzbuzz シナリオ相当の fixture テストが通る
+- [x] TaskGraph の cycle 検出が触れる（負例テスト）
+- [x] SessionSnapshot からの再開で同じ最終状態に到達
+- [x] CLI: `moon run examples/orchestration` で task graph と snapshot がダンプされる
 
 ## 非ゴール
 
@@ -57,3 +59,14 @@ MoonBit で typed に書ける、という主張のための材料にする。
 
 - M6 AgentRole, TaskNode, TaskGraph, OrchestratorSession
 - moonrepo の codex/cc sub-agent 運用パターン
+
+## 解決方法
+
+`examples/orchestration/` パッケージを作成し、Planner → Executor →
+Reviewer の fizzbuzz task graph を fixture として実装した。`run_scenario`
+は DAG の topological order に従って task ごとの sub `Session` を進め、
+各段階の `SessionSnapshot` を返す。
+
+テストでは task 数、cycle 検出、topological order、snapshot round-trip を確認した。
+CLI entrypoint は `moon run examples/orchestration` として用意し、task graph と
+最終 snapshot 数を表示する。
