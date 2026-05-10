@@ -1,8 +1,10 @@
 # MoonBit → wasm → WebView デモ
 
 Created: 2026-05-09
+Completed: 2026-05-10
+Model: GPT-5 Codex
 Category: demo
-Status: open
+Status: closed
 
 ## Summary
 
@@ -53,11 +55,11 @@ examples/wasm-webview/
 
 ## 受け入れ基準
 
-- [ ] `moon build --target wasm-gc` が通る
-- [ ] `examples/wasm-webview/web/` を静的サーブして Chromium / WKWebView で動作
-- [ ] ボタン操作で AgentState の遷移が画面に反映される
-- [ ] event log がリアルタイムに増える
-- [ ] README に手順（build / serve / open）が書かれている
+- [x] `moon build --target wasm-gc` が通る
+- [x] `examples/wasm-webview/web/` を静的サーブして Chromium / WKWebView で動作
+- [x] ボタン操作で AgentState の遷移が画面に反映される
+- [x] event log がリアルタイムに増える
+- [x] README に手順（build / serve / open）が書かれている
 
 ## 非ゴール
 
@@ -71,3 +73,13 @@ examples/wasm-webview/
 - M3 `project_session`, `available_actions`
 - M4 `render_resource`, `session_viewer`
 - vercel-labs/zero-native の `examples/hello`, `examples/webview`
+
+## 解決方法
+
+既に merge 済みの App Server agent session contract / tool boundary / demo session contract に乗せて、`examples/wasm-webview/` を最小の browser / WebView 参照実装として完成扱いにした。
+
+MoonBit 側は `bridge.mbt` で `Session::create("demo")` を保持し、`dispatch_event(kind, payload)` から `start_session`、`append_user_message`、`record_tool_request`、`record_tool_result`、`end_session` を `apply_app_server_session_tool()` 経由で適用する。`examples/wasm-webview/moon.pkg` の wasm-gc link 設定で `boot`、`dispatch_event`、各 getter を明示 export し、JS builtin string を有効にしたうえで、`render_resource(project(session))` の HTML、resource JSON、`AgentSessionSnapshot` JSON、session tool catalog、`execute_tool_request` plan、replay export を JS host から呼べる stable surface として公開している。
+
+Web 側は `bootstrap.js` で wasm を読み込み、各ボタン操作後に export を再読込して `#app` と各 JSON pane を更新し、右ペインの event log に操作履歴を追記する。README には build / serve / open の手順と、transport-free な bridge の exported surface を記載した。
+
+`pub extern "wasm" fn emit_html(html : String) -> Unit` は現行 compiler の inline WAT import assertion failure を避けるため、push 型 import ではなく JS が `get_resource_html()` を pull する構成にしている。この制約は README の Notes に明記した。
