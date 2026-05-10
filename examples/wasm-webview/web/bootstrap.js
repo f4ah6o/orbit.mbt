@@ -50,7 +50,10 @@ async function init() {
     }
   };
 
-  const wasm = await WebAssembly.instantiateStreaming(fetch(WASM_URL), imports);
+  const wasm = await WebAssembly.instantiateStreaming(fetch(WASM_URL), imports, {
+    builtins: ["js-string"],
+    importedStringConstants: "_",
+  });
   exports = wasm.instance.exports;
 
   logEvent("wasm module loaded");

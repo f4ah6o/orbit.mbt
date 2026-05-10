@@ -29,6 +29,16 @@ python3 -m http.server 8000
 
 Open http://localhost:8000 in your browser.
 
+The wasm-gc package enables JS builtin strings, so custom hosts should instantiate
+the module with:
+
+```js
+{
+  builtins: ["js-string"],
+  importedStringConstants: "_",
+}
+```
+
 ## Exported bridge
 
 `examples/wasm-webview/bridge.mbt` exports:

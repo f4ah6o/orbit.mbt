@@ -4,4 +4,22 @@ import {
 
 options(
   "is-main": true,
+  link: {
+    "wasm-gc": {
+      "exports": [
+        "boot",
+        "reset_demo",
+        "dispatch_event",
+        "get_html",
+        "get_resource_html",
+        "get_resource_json",
+        "get_snapshot_json",
+        "get_session_tool_catalog_json",
+        "get_execute_tool_plan_json",
+        "get_replay_export_json",
+      ],
+      "imported-string-constants": "_",
+      "use-js-builtin-string": true,
+    },
+  },
 )
