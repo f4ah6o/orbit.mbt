@@ -15,11 +15,25 @@ function logEvent(text) {
 function updateApp() {
   if (!exports) return;
   try {
-    const html = exports.get_html();
+    const html = exports.get_resource_html();
     document.getElementById("app").innerHTML = html;
+    setJson("snapshot-json", exports.get_snapshot_json());
+    setJson("resource-json", exports.get_resource_json());
+    setJson("tool-catalog-json", exports.get_session_tool_catalog_json());
+    setJson("tool-plan-json", exports.get_execute_tool_plan_json());
+    setJson("replay-json", exports.get_replay_export_json());
   } catch (e) {
     document.getElementById("app").innerHTML = `<p class="error">render error: ${e}</p>`;
     logEvent(`render error: ${e.message || e}`);
+  }
+}
+
+function setJson(id, json) {
+  const node = document.getElementById(id);
+  try {
+    node.textContent = JSON.stringify(JSON.parse(json), null, 2);
+  } catch (_e) {
+    node.textContent = json;
   }
 }
 
@@ -45,7 +59,7 @@ async function init() {
   logEvent("boot() called");
 
   updateApp();
-  logEvent("initial render done");
+  logEvent("initial snapshot/render/action/replay artifacts loaded");
 }
 
 document.getElementById("btn-start").addEventListener("click", () => {

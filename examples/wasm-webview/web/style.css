@@ -8,7 +8,7 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   background: #1a1a2e;
   color: #e0e0e0;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -52,28 +52,26 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .pane {
   padding: 1rem;
-  overflow-y: auto;
-}
-
-#app {
+  overflow: auto;
   border-right: 1px solid #0f3460;
+  border-bottom: 1px solid #0f3460;
 }
 
-#log {
-  background: #111;
-}
-
-#log h3 {
+.pane h3 {
   margin-bottom: 0.5rem;
   color: #888;
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
+}
+
+#log {
+  background: #111;
 }
 
 #log-list {
@@ -92,6 +90,29 @@ main {
 .loading {
   color: #888;
   font-style: italic;
+}
+
+.artifact-pane {
+  background: #141421;
+  min-height: 18rem;
+}
+
+.artifact-pane--wide {
+  grid-column: 1 / -1;
+}
+
+pre {
+  max-height: 24rem;
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid #0f3460;
+  border-radius: 4px;
+  background: #0f1020;
+  color: #d7e9ee;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 /* orbit session styles */
@@ -212,4 +233,14 @@ main {
 
 .orbit-link:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .artifact-pane--wide {
+    grid-column: auto;
+  }
 }

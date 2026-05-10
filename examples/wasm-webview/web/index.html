@@ -13,15 +13,38 @@
     <button id="btn-user-msg">User Message</button>
     <button id="btn-request-tool">Request Tool</button>
     <button id="btn-respond-tool">Respond Tool</button>
-    <input id="payload-input" type="text" placeholder="payload (tool name / message / response)" value="hello">
+    <input id="payload-input" type="text" placeholder="payload (message / response)" value="hello">
   </header>
   <main>
-    <section id="app" class="pane">
-      <p class="loading">Loading wasm…</p>
+    <section class="pane">
+      <h3>Resource HTML</h3>
+      <div id="app">
+        <p class="loading">Loading wasm...</p>
+      </div>
     </section>
     <section id="log" class="pane">
       <h3>Event Log</h3>
       <ol id="log-list"></ol>
+    </section>
+    <section class="pane artifact-pane">
+      <h3>AgentSessionSnapshot JSON</h3>
+      <pre id="snapshot-json"></pre>
+    </section>
+    <section class="pane artifact-pane">
+      <h3>Resource Projection JSON</h3>
+      <pre id="resource-json"></pre>
+    </section>
+    <section class="pane artifact-pane">
+      <h3>Session Tool Catalog JSON</h3>
+      <pre id="tool-catalog-json"></pre>
+    </section>
+    <section class="pane artifact-pane">
+      <h3>execute_tool_request Plan JSON</h3>
+      <pre id="tool-plan-json"></pre>
+    </section>
+    <section class="pane artifact-pane artifact-pane--wide">
+      <h3>Replay Export JSON</h3>
+      <pre id="replay-json"></pre>
     </section>
   </main>
   <script type="module" src="bootstrap.js"></script>
